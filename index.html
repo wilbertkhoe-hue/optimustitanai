@@ -9,261 +9,258 @@
 </head>
 
 <body class="bg-[#0b0f1a] text-white font-sans">
-
 <div class="p-4 space-y-4">
 
 <!-- TOP BAR -->
 <div class="grid grid-cols-4 gap-4">
-  <div class="bg-[#121826] p-4 rounded-xl">BTC: <span id="btcPrice">...</span></div>
-  <div class="bg-[#121826] p-4 rounded-xl">GOLD: <span id="goldPrice">...</span></div>
-  <div class="bg-[#121826] p-4 rounded-xl">STATUS: <span id="status">BTC MODE</span></div>
-  <div class="bg-[#121826] p-4 rounded-xl">SIGNAL: <span id="signalBox">...</span></div>
+  <div class="bg-[#121826] p-4 rounded-xl">BTC: <span id="btcPrice" class="font-bold text-green-400">...</span></div>
+  <div class="bg-[#121826] p-4 rounded-xl">GOLD: <span id="goldPrice" class="font-bold text-yellow-400">...</span></div>
+  <div class="bg-[#121826] p-4 rounded-xl">MODE: <span id="status" class="font-bold">BTC</span></div>
+  <div class="bg-[#121826] p-4 rounded-xl">SIGNAL: <span id="signalBox" class="font-bold text-gray-400">—</span></div>
 </div>
 
-<!-- ✅ TAMBAHAN MACRO (TANPA NGUBAH YANG LAIN) -->
+<!-- MACRO BAR -->
 <div class="grid grid-cols-6 gap-4">
-
-  <div class="bg-[#121826] p-3 rounded-xl text-xs">
-    Inflasi<br><span id="inflation">...</span>
-  </div>
-
-  <div class="bg-[#121826] p-3 rounded-xl text-xs">
-    Suku Bunga<br><span id="rate">...</span>
-  </div>
-
-  <div class="bg-[#121826] p-3 rounded-xl text-xs">
-    DXY<br><span id="dxy">...</span>
-  </div>
-
-  <div class="bg-[#121826] p-3 rounded-xl text-xs">
-    VIX<br><span id="vix">...</span>
-  </div>
-
-  <div class="bg-[#121826] p-3 rounded-xl text-xs">
-    S&P500<br><span id="sp500">...</span>
-  </div>
-
-  <div class="bg-[#121826] p-3 rounded-xl text-xs">
-    Fear & Greed<br><span id="feargreed">...</span>
-  </div>
-
+  <div class="bg-[#121826] p-3 rounded-xl text-xs">Inflasi<br><span id="inflation" class="font-bold">...</span></div>
+  <div class="bg-[#121826] p-3 rounded-xl text-xs">Suku Bunga<br><span id="rate" class="font-bold">...</span></div>
+  <div class="bg-[#121826] p-3 rounded-xl text-xs">DXY<br><span id="dxy" class="font-bold">...</span></div>
+  <div class="bg-[#121826] p-3 rounded-xl text-xs">VIX<br><span id="vix" class="font-bold">...</span></div>
+  <div class="bg-[#121826] p-3 rounded-xl text-xs">S&P500<br><span id="sp500" class="font-bold">...</span></div>
+  <div class="bg-[#121826] p-3 rounded-xl text-xs">Fear & Greed<br><span id="feargreed" class="font-bold">...</span></div>
 </div>
 
-<!-- MAIN -->
+<!-- MAIN GRID -->
 <div class="grid grid-cols-3 gap-4">
 
-<!-- LEFT -->
-<div class="col-span-2 space-y-4">
-
-<!-- CHART -->
-<div class="bg-[#121826] p-4 rounded-xl">
-  <div id="tradingview_chart"></div>
-</div>
-
-<!-- BUTTON -->
-<div class="flex gap-2">
-  <button onclick="switchAsset('BTC')" class="bg-green-600 px-4 py-2 rounded">BTC</button>
-  <button onclick="switchAsset('GOLD')" class="bg-yellow-600 px-4 py-2 rounded">GOLD</button>
-</div>
-
-</div>
-
-<!-- CHAT -->
-<div class="bg-[#121826] p-4 rounded-xl flex flex-col">
-  <div id="chatbox" class="flex-1 overflow-y-auto text-sm mb-2"></div>
-  <div class="flex gap-2">
-    <input id="input" class="flex-1 p-2 bg-black border border-gray-600 rounded">
-    <button onclick="send()" class="bg-indigo-600 px-3 rounded">Kirim</button>
+  <!-- LEFT: Chart + Buttons -->
+  <div class="col-span-2 space-y-4">
+    <div class="bg-[#121826] p-4 rounded-xl">
+      <div id="tradingview_chart"></div>
+    </div>
+    <div class="flex gap-2">
+      <button onclick="switchAsset('BTC')"
+        class="bg-green-600 hover:bg-green-500 px-6 py-2 rounded-lg font-bold transition">BTC</button>
+      <button onclick="switchAsset('GOLD')"
+        class="bg-yellow-600 hover:bg-yellow-500 px-6 py-2 rounded-lg font-bold transition">GOLD</button>
+      <button onclick="analisis(currentTicker)"
+        class="bg-indigo-700 hover:bg-indigo-600 px-6 py-2 rounded-lg font-bold transition ml-auto">
+        🔄 Refresh Analisis
+      </button>
+    </div>
   </div>
-</div>
+
+  <!-- RIGHT: Chat -->
+  <div class="bg-[#121826] p-4 rounded-xl flex flex-col" style="min-height:480px">
+    <div class="text-sm font-bold mb-2 text-indigo-400">💬 TITAN Chat</div>
+    <div id="chatbox" class="flex-1 overflow-y-auto text-sm mb-3 space-y-2"></div>
+    <div class="flex gap-2">
+      <input id="input" placeholder="Tanya analisis..."
+        class="flex-1 p-2 bg-black border border-gray-600 rounded-lg text-sm focus:outline-none focus:border-indigo-500"
+        onkeydown="if(event.key==='Enter') send()">
+      <button onclick="send()"
+        class="bg-indigo-600 hover:bg-indigo-500 px-4 rounded-lg transition font-bold">Kirim</button>
+    </div>
+  </div>
 
 </div>
 
-<!-- AI RESULT -->
+<!-- AI PREDICTION OUTPUT -->
 <div class="bg-[#121826] p-4 rounded-xl">
-  <h2>🎯 AI Prediction</h2>
-  <pre id="prediction" class="text-xs"></pre>
+  <div class="flex items-center gap-2 mb-2">
+    <span class="text-lg">🎯</span>
+    <span class="font-bold">AI Prediction (XGBoost)</span>
+    <span id="loadingBadge" class="hidden text-xs bg-indigo-700 px-2 py-0.5 rounded-full animate-pulse">Memuat...</span>
+  </div>
+  <pre id="prediction" class="text-xs text-gray-300 whitespace-pre-wrap leading-relaxed">
+Klik BTC atau GOLD untuk memulai analisis XGBoost.</pre>
 </div>
 
 <!-- SENTIMENT + NEWS -->
 <div class="grid grid-cols-2 gap-4">
   <div class="bg-[#121826] p-4 rounded-xl">
-    <h2>📊 Sentiment</h2>
-    <div id="sentimentBar"></div>
+    <h2 class="font-bold mb-2">📊 Sentiment</h2>
+    <div id="sentimentBar" class="text-sm text-gray-400">—</div>
   </div>
   <div class="bg-[#121826] p-4 rounded-xl">
-    <h2>📰 News</h2>
-    <div id="newsList"></div>
+    <h2 class="font-bold mb-2">📰 News</h2>
+    <div id="newsList" class="text-sm text-gray-400">—</div>
   </div>
 </div>
 
-</div>
+</div><!-- end .p-4 -->
 
 <script>
+// ── STATE ──
+let currentTicker  = "BTC-USD";
+let currentSymbol  = "BINANCE:BTCUSDT";
 
-// ================= CHART =================
-let currentSymbol = "BINANCE:BTCUSDT";
-
-function loadChart(symbol){
+// ── CHART ──
+function loadChart(symbol) {
   document.getElementById("tradingview_chart").innerHTML = "";
   new TradingView.widget({
     container_id: "tradingview_chart",
     width: "100%",
-    height: 400,
+    height: 420,
     symbol: symbol,
     interval: "60",
-    theme: "dark"
+    theme: "dark",
+    hide_side_toolbar: false,
   });
 }
-
 loadChart(currentSymbol);
 
-// ================= SWITCH =================
-function switchAsset(asset){
-  if(asset === "BTC"){
+// ── SWITCH ASSET ──
+function switchAsset(asset) {
+  if (asset === "BTC") {
     currentSymbol = "BINANCE:BTCUSDT";
-    document.getElementById("status").innerText = "BTC MODE";
-    loadChart(currentSymbol);
-    analisis("BTC-USD");
-  }
-
-  if(asset === "GOLD"){
+    currentTicker = "BTC-USD";
+    document.getElementById("status").innerText = "BTC";
+  } else {
     currentSymbol = "OANDA:XAUUSD";
-    document.getElementById("status").innerText = "GOLD MODE";
-    loadChart(currentSymbol);
-    analisis("GC=F");
+    currentTicker = "GC=F";
+    document.getElementById("status").innerText = "GOLD";
+  }
+  loadChart(currentSymbol);
+  analisis(currentTicker);
+}
+
+// ── ANALISIS XGBOOST ──
+async function analisis(ticker) {
+  const pred      = document.getElementById("prediction");
+  const badge     = document.getElementById("loadingBadge");
+  const signalBox = document.getElementById("signalBox");
+
+  pred.innerText  = "⏳ Menjalankan XGBoost AI... (bisa 30-60 detik)";
+  badge.classList.remove("hidden");
+  signalBox.innerText     = "Memuat...";
+  signalBox.className     = "font-bold text-gray-400";
+
+  try {
+    const res  = await fetch("/proses", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ mode: "ANALISIS", asset: ticker })
+    });
+
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+
+    // ✅ FIX: pastikan reply ada sebelum ditampilkan
+    pred.innerText = data.reply ?? "Tidak ada output dari AI.";
+
+    // ✅ FIX: signal tidak lagi undefined
+    const signal = data.signal ?? "HOLD ⚖️";
+    signalBox.innerText = signal;
+    signalBox.className = signal.includes("BUY")  ? "font-bold text-green-400"
+                        : signal.includes("SELL") ? "font-bold text-red-400"
+                        : "font-bold text-yellow-400";
+
+    // Sentiment
+    const sent = data.sentiment ?? 50;
+    document.getElementById("sentimentBar").innerHTML =
+      `<div class="flex items-center gap-2">
+         <div class="flex-1 bg-gray-700 rounded h-3">
+           <div class="h-3 rounded ${sent >= 60 ? 'bg-green-500' : sent >= 40 ? 'bg-yellow-500' : 'bg-red-500'}"
+                style="width:${sent}%"></div>
+         </div>
+         <span>${sent}%</span>
+       </div>`;
+
+  } catch (err) {
+    pred.innerText = `❌ Error: ${err.message}\n\nPastikan app.py berjalan dan ai_trading.py ada di folder yang sama.`;
+    signalBox.innerText = "ERROR";
+    signalBox.className = "font-bold text-red-400";
+  } finally {
+    badge.classList.add("hidden");
   }
 }
 
-// ================= MARKET =================
-async function loadMarket(){
-  try{
-    let btc = await fetch("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd");
-    let data = await btc.json();
-    document.getElementById("btcPrice").innerText = "$" + data.bitcoin.usd;
-  }catch{}
+// ── MARKET PRICES (via server, no CORS issue) ──
+async function loadMarket() {
+  try {
+    const res  = await fetch("/market");
+    const data = await res.json();
+    if (data.btc)  document.getElementById("btcPrice").innerText  = "$" + data.btc.toLocaleString();
+    if (data.gold) document.getElementById("goldPrice").innerText = "$" + data.gold.toFixed(2);
+  } catch(e) {
+    console.warn("Market fetch error:", e);
+  }
 }
-setInterval(loadMarket,5000);
+setInterval(loadMarket, 10000);
 loadMarket();
 
-// ================= ANALISIS =================
-async function analisis(asset){
-  document.getElementById("prediction").innerText = "Loading AI...";
+// ── MACRO DATA (via /macro endpoint, no CORS) ──
+async function loadMacro() {
+  try {
+    const res  = await fetch("/macro");
+    const data = await res.json();
 
-  let res = await fetch("/proses",{
-    method:"POST",
-    headers:{"Content-Type":"application/json"},
-    body: JSON.stringify({mode:"ANALISIS", asset:asset})
-  });
+    const fmt = (v, suffix="") => v !== null && v !== undefined ? v + suffix : "N/A";
 
-  let data = await res.json();
+    document.getElementById("dxy").innerText      = fmt(data.dxy?.toFixed(2));
+    document.getElementById("vix").innerText      = fmt(data.vix?.toFixed(2));
+    document.getElementById("sp500").innerText    = fmt(data.sp500?.toLocaleString());
+    document.getElementById("rate").innerText     = fmt(data.rate, "%");
+    document.getElementById("inflation").innerText = fmt(data.inflation);
 
-  document.getElementById("prediction").innerText = data.reply;
-  document.getElementById("signalBox").innerText = data.signal;
+    if (data.fng_value !== null && data.fng_value !== undefined) {
+      const fg = data.fng_value;
+      const label = data.fng_label ?? "";
+      const color = fg >= 60 ? "text-green-400" : fg >= 40 ? "text-yellow-400" : "text-red-400";
+      document.getElementById("feargreed").innerHTML =
+        `<span class="${color} font-bold">${fg} (${label})</span>`;
+    } else {
+      document.getElementById("feargreed").innerText = "N/A";
+    }
+  } catch(e) {
+    console.warn("Macro fetch error:", e);
+  }
+}
+setInterval(loadMacro, 30000);
+loadMacro();
+
+// ── CHAT ──
+async function send() {
+  const input = document.getElementById("input");
+  const msg   = input.value.trim();
+  if (!msg) return;
+
+  addChat("YOU", msg, "text-indigo-400");
+  input.value = "";
+
+  addChat("TITAN", "⏳ Berpikir...", "text-gray-400", "thinking");
+
+  try {
+    const res  = await fetch("/proses", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ mode: "CHAT", message: msg })
+    });
+    const data = await res.json();
+    document.getElementById("thinking")?.remove();
+    addChat("TITAN", data.reply ?? "Tidak ada respons.", "text-yellow-400");
+
+    const sent = data.sentiment ?? 50;
+    document.getElementById("sentimentBar").innerHTML =
+      `Score: ${sent}%`;
+
+    const newsHTML = (data.news ?? []).map(n => `<div>📰 ${n}</div>`).join("");
+    document.getElementById("newsList").innerHTML = newsHTML || "—";
+  } catch(e) {
+    document.getElementById("thinking")?.remove();
+    addChat("TITAN", "❌ Error: " + e.message, "text-red-400");
+  }
 }
 
-// ================= CHAT =================
-async function send(){
-  let input = document.getElementById("input");
-  let msg = input.value;
-  if(!msg) return;
-
-  add("YOU", msg);
-  input.value="";
-
-  let res = await fetch("/proses",{
-    method:"POST",
-    headers:{"Content-Type":"application/json"},
-    body: JSON.stringify({mode:"CHAT", message:msg})
-  });
-
-  let data = await res.json();
-
-  add("TITAN", data.reply);
-
-  document.getElementById("sentimentBar").innerText =
-    "Score: " + data.sentiment + "%";
-
-  let newsHTML = "";
-  data.news.forEach(n => {
-    newsHTML += `<div class="text-xs">📰 ${n}</div>`;
-  });
-  document.getElementById("newsList").innerHTML = newsHTML;
-}
-
-function add(sender,text){
-  let box = document.getElementById("chatbox");
-  box.innerHTML += `<div><b>${sender}:</b> ${text}</div>`;
+function addChat(sender, text, colorClass, id="") {
+  const box  = document.getElementById("chatbox");
+  const div  = document.createElement("div");
+  if (id) div.id = id;
+  div.className = "text-sm";
+  div.innerHTML = `<span class="${colorClass} font-bold">${sender}:</span> ${text}`;
+  box.appendChild(div);
   box.scrollTop = box.scrollHeight;
 }
-
-// ================= ✅ MACRO ADD-ON =================
-async function loadMacroAddon(){
-
-  // ================= FEAR & GREED =================
-  try{
-    let fg = await fetch("https://api.alternative.me/fng/");
-    let data = await fg.json();
-
-    document.getElementById("feargreed").innerText =
-      data.data[0].value + " (" + data.data[0].value_classification + ")";
-  }catch(e){
-    console.log("FG ERROR", e);
-  }
-
-  // ================= S&P500 =================
-  try{
-let sp = await fetch("https://query1.finance.yahoo.com/v7/finance/quote?symbols=%5EGSPC");
-let d = await sp.json();
-
-document.getElementById("sp500").innerText =
-  d.quoteResponse.result?.[0]?.regularMarketPrice ?? "N/A";
-  }catch(e){
-    console.log("SP500 ERROR", e);
-  }
-
-  // ================= VIX =================
-  try{
-let vix = await fetch("https://query1.finance.yahoo.com/v7/finance/quote?symbols=%5EVIX");
-let d = await vix.json();
-
-document.getElementById("vix").innerText =
-  d.quoteResponse.result?.[0]?.regularMarketPrice ?? "N/A";
-  }catch(e){
-    console.log("VIX ERROR", e);
-  }
-
-  // ================= DXY =================
-  try{
-let dxy = await fetch("https://query1.finance.yahoo.com/v7/finance/quote?symbols=DX-Y.NYB");
-let d = await dxy.json();
-
-document.getElementById("dxy").innerText =
-  d.quoteResponse.result?.[0]?.regularMarketPrice ?? "N/A";
-  }catch(e){
-    console.log("DXY ERROR", e);
-  }
-
-  // ================= MACRO (FRED - FIXED CALL) =================
-  try{
-    let res = await fetch("/macro");
-    let data = await res.json();
-
-    console.log("MACRO:", data);
-
-    document.getElementById("rate").innerText =
-      data.rate !== null ? data.rate + "%" : "N/A";
-
-    document.getElementById("inflation").innerText =
-      data.inflation !== null ? data.inflation : "N/A";
-
-  }catch(e){
-    console.log("MACRO ERROR", e);
-  }
-}
-
-setInterval(loadMacroAddon,15000);
-loadMacroAddon();
 </script>
 
 </body>
